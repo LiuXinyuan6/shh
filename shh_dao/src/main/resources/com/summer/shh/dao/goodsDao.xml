@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.shh.dao.goodsDao">
+
+    <resultMap id="goods" type="goods">
+        <id property="id_goods" column="id_goods" javaType="String"/>
+        <result property="name_goods" column="name_goods" javaType="String"/>
+        <result property="price_goods" column="price_goods" javaType="Double"/>
+        <result property="type_goods" column="type_goods" javaType="String"/>
+        <result property="id_merchant" column="id_merchant" javaType="String"/>
+        <result property="name" column="name" javaType="String"/>
+        <result property="address" column="address" javaType="String"/>
+        <result property="phone" column="phone" javaType="String"/>
+    </resultMap>
+
+
+    <insert id="insert" parameterType="goods">
+        insert into goods values(#{id_goods},#{name_goods},#{price_goods},#{type_goods},#{id_merchant})
+    </insert>
+
+    <update id="update" parameterType="goods">
+        update goods set name_goods=#{name_goods},price_goods=#{price_goods},type_goods=#{type_goods} where id_goods=#{id_goods}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from goods where id_goods=#{id_goods}
+    </delete>
+
+    <select id="select" parameterType="String" resultMap="goods">
+        SELECT * FROM goods LEFT JOIN `user` ON id_merchant=id WHERE id_goods=#{id_goods}
+    </select>
+
+    <select id="selectAll" resultMap="goods">
+        select * from goods,user where id_merchant=id
+    </select>
+
+    <select id="selectFind"  resultMap="goods" parameterType="String">
+        select * from goods,user where id_merchant=id and name_goods like ${name_goods}
+    </select>
+
+    <select id="selectFind_merchant"  resultMap="goods" parameterType="String">
+        select * from goods,user where id_merchant=id and name like ${name_merchant}
+    </select>
+
+
+</mapper>
